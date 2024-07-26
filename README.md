@@ -20,7 +20,7 @@
 1. **Clone the repository**:
 
     ```sh
-    git clone https://github.com/yourusername/ParaFetech.git
+    git clone https://github.com/Amitminer/Para-Fetch
     ```
 
 2. **Navigate to the project directory**:
@@ -31,10 +31,10 @@
 
 3. **Build the project**:
 
-    Using `g++`:
+    Using `batch script`:
 
     ```sh
-    g++ src/main.cpp -o bin/ParaFetech
+    ./build.bat
     ```
 
 4. **Run the tool**:
