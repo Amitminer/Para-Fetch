@@ -1,0 +1,50 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - dev
+      - beta
+
+jobs:
+  build-and-release-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          cmake -B build -S .
+          cmake --build build --config Release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: todolist-windows
+          path: ${{ github.workspace}}\Release\ParaFetch.exe
+
+  create-release:
+    needs: [build-and-release-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: todolist-windows
+          path: todolist-windows
+      - name: Create tar files
+        run: |
+          tar -czvf todolist-windows.tar.gz -C todolist-windows .
+          
+      - uses: ncipollo/release-action@v1.14.0
+        with:
+          artifacts: "todolist-windows.tar.gz"
+          token: ${{ secrets.PAT_TOKEN }}
+          name: Build v${{ github.run_number }}
+          tag: v${{ github.run_number }}
+          prerelease: true
+
+  cleanup:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: |
+            todolist-windows
