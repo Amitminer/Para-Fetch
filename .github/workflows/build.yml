@@ -18,7 +18,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: todolist-windows
-          path: ${{ github.workspace}}\Release\ParaFetch.exe
+          path: ${{ github.workspace}}\build\Release\ParaFetch.exe
 
   create-release:
     needs: [build-and-release-windows]
